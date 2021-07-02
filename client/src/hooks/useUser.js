@@ -10,11 +10,12 @@ export function useUser() {
 
   const [state, setState] = context;
 
-  const isAuthenticated = !!state.user;
+  const user = state.user;
+  const isAuthenticated = !!user;
 
-  const login = (user) => setState({ user });
+  const login = (user) => setState(user);
 
   const logout = () => setState({});
 
-  return { isAuthenticated, login, logout };
+  return { isAuthenticated, login, logout, user };
 }

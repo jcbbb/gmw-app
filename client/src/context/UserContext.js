@@ -3,7 +3,7 @@ import React from "react";
 export const UserContext = React.createContext();
 
 export function UserProvider({ children, ...props }) {
-  const [state, setState] = React.useState({ user: { name: "simone" } });
+  const [state, setState] = React.useState({});
 
   const value = React.useMemo(() => [state, setState], [state]);
 

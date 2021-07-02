@@ -25,7 +25,7 @@ function Input(props) {
         className="appearance-none block w-full outline-none bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-3 leading-tight focus:bg-white focus:border-gray-500 duration-200"
         autoComplete={`current-${name}`}
       />
-      {showError ? <span class="text-red-600 text-sm">Please fill out this field.</span> : null}
+      {showError ? <span className="text-red-600 text-sm">Please fill out this field.</span> : null}
     </div>
   );
 }

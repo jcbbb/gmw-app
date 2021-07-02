@@ -2,8 +2,8 @@ import { useUser } from "./useUser";
 
 import { getRoutes } from "../config";
 
-export const useRoutes = () => {
+export function useRoutes() {
   const { isAuthenticated } = useUser();
   const routeType = isAuthenticated ? "private" : "public";
   return getRoutes(routeType);
-};
+}
