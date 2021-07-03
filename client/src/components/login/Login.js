@@ -1,6 +1,6 @@
 import React from "react";
 import api from "../../api";
-import { useAsync, CustomError } from "../../hooks/useAsync";
+import { useAsync } from "../../hooks/useAsync";
 import { Formiz, useForm } from "@formiz/core";
 import { toast } from "react-toastify";
 import { useUser } from "../../hooks/useUser";

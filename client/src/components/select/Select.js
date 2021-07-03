@@ -1,9 +1,9 @@
 import React from "react";
 import { useField } from "@formiz/core";
 
-function Input(props) {
+function Select(props) {
   const { setValue, value, id, isPristine, isSubmitted, isValid } = useField(props);
-  const { name, label, type, className, placeholder } = props;
+  const { name, label, className, placeholder, children } = props;
 
   const showError = !isValid && (!isPristine || isSubmitted);
   return (
@@ -13,19 +13,20 @@ function Input(props) {
           {label}
         </label>
       ) : null}
-      <input
+      <select
         value={value || ""}
         onChange={({ target }) => setValue(target.value)}
         name={name}
         id={id}
-        type={type}
         className={`input ${className}`}
         autoComplete={`current-${name}`}
         placeholder={placeholder}
-      />
+      >
+        {children}
+      </select>
       {showError ? <span className="text-red-600 text-sm">Please fill out this field.</span> : null}
     </div>
   );
 }
 
-export default Input;
+export default Select;

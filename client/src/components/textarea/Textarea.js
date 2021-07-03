@@ -1,9 +1,9 @@
 import React from "react";
 import { useField } from "@formiz/core";
 
-function Input(props) {
+function Textarea(props) {
   const { setValue, value, id, isPristine, isSubmitted, isValid } = useField(props);
-  const { name, label, type, className, placeholder } = props;
+  const { name, label, cols, rows } = props;
 
   const showError = !isValid && (!isPristine || isSubmitted);
   return (
@@ -13,19 +13,19 @@ function Input(props) {
           {label}
         </label>
       ) : null}
-      <input
+      <textarea
         value={value || ""}
         onChange={({ target }) => setValue(target.value)}
         name={name}
         id={id}
-        type={type}
-        className={`input ${className}`}
+        className="input"
         autoComplete={`current-${name}`}
-        placeholder={placeholder}
+        cols={cols}
+        rows={rows}
       />
       {showError ? <span className="text-red-600 text-sm">Please fill out this field.</span> : null}
     </div>
   );
 }
 
-export default Input;
+export default Textarea;

@@ -50,7 +50,7 @@ function Modal({ children }) {
         <div
           onClick={clickHandler}
           onTransitionEnd={transitionEnd}
-          className={`fixed w-full h-full z-10 flex items-center justify-center bg-black bg-opacity-50 top-0 left-0 transform transition-transform duration-200 ${
+          className={`fixed w-full h-full z-50 flex items-center justify-center bg-black bg-opacity-50 top-0 left-0 transform transition-transform duration-200 ${
             active && modal.open ? "translate-y-0" : "translate-y-full"
           }`}
         >

@@ -1,4 +1,10 @@
 import React from "react";
+import ProfileIcon from "../icons/profile";
+import GiftIcon from "../icons/gift";
+import CalendarIcon from "../icons/calendar";
+import UsersIcon from "../icons/users";
+import InboxIcon from "../icons/inbox";
+import LogoutIcon from "../icons/logout";
 import { NavLink, Link } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
 import { useUser } from "../../hooks/useUser";
@@ -6,8 +12,9 @@ import { useUser } from "../../hooks/useUser";
 function Header() {
   const { openModal } = useModal();
   const { isAuthenticated, user } = useUser();
+
   return (
-    <header className="container mx-auto flex justify-between items-center py-4 max-w-7xl">
+    <header className="container mx-auto flex justify-between items-center p-4 max-w-7xl xl:px-0">
       <Link to="/">Logo</Link>
       <nav>
         <ul className="flex items-center space-x-8">
@@ -38,27 +45,66 @@ function Header() {
                   className="inline object-cover w-12 h-12 rounded-full"
                 />
               </summary>
-              <ul className="absolute shadow-md w-screen max-w-xs right-0 rounded-lg">
+              <ul className="dropdown max-w-xs right-0">
                 <li>
                   <Link
                     to="/profile"
-                    className="flex p-4 text-gray-600 bg-white hover:bg-gray-50 duration-200"
+                    className="flex h-14 px-4 items-center text-gray-600 bg-white hover:bg-gray-50 duration-200"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                      />
-                    </svg>
+                    <ProfileIcon />
                     <span className="ml-2 text-gray-600">Profile</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/my-events"
+                    className="flex h-14 px-4 items-center text-gray-600 bg-white hover:bg-gray-50 duration-200"
+                  >
+                    <GiftIcon />
+                    <span className="ml-2 text-gray-600">My events</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/friends-events"
+                    className="flex h-14 px-4 items-center text-gray-600 bg-white hover:bg-gray-50 duration-200"
+                  >
+                    <CalendarIcon />
+                    <span className="ml-2 text-gray-600">Friends' events</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/friends"
+                    className="flex h-14 px-4 items-center text-gray-600 bg-white hover:bg-gray-50 duration-200"
+                  >
+                    <UsersIcon />
+                    <span className="ml-2 text-gray-600">Friends</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    to="/messages"
+                    className="flex h-14 px-4 items-center text-gray-600 bg-white hover:bg-gray-50 duration-200"
+                  >
+                    <InboxIcon />
+                    <div className="ml-2 text-gray-600 flex items-center justify-between w-full">
+                      <span>Messages</span>
+                      <span className="inline-block w-6 h-6 text-center bg-purple-600 rounded-full text-white font-xs">
+                        2
+                      </span>
+                    </div>
+                  </Link>
+                </li>
+                <hr className="border-t-2 border-gray-100" />
+                <li>
+                  <Link
+                    to="/logout"
+                    className="flex h-14 px-4 items-center text-gray-600 bg-white hover:bg-gray-50"
+                  >
+                    <LogoutIcon color="text-red-400" />
+                    <span className="ml-2 text-red-400">Logout</span>
                   </Link>
                 </li>
               </ul>
