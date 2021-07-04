@@ -1,7 +1,8 @@
 import React from "react";
 import Input from "../input/Input";
-import { Formiz, useForm, FormizStep } from "@formiz/core";
 import Select from "../select/Select";
+import OccasionPicker from "../occasionPicker/OccasionPicker";
+import { Formiz, useForm, FormizStep } from "@formiz/core";
 
 function NewEvent() {
   const eventForm = useForm();
@@ -12,7 +13,7 @@ function NewEvent() {
       <h3 className="text-lg font-bold text-gray-900">Occasion</h3>
       <Formiz connect={eventForm} onValidSubmit={onSubmit}>
         <form noValidate onSubmit={eventForm.submitStep} className="space-y-6">
-          <FormizStep name="step_1">
+          <FormizStep name="step_1" className="space-y-6">
             <Select name="for_you" label="Is it for you?" defaultValue="yes">
               <option value="yes">Yes</option>
               <option value="no">No</option>
@@ -25,13 +26,13 @@ function NewEvent() {
                 required="This field is required"
               />
             ) : null}
-            <Input
-              type="date"
-              name="start_date"
-              label="Start date"
+            <Input type="date" name="end_date" label="End date" required="This field is required" />
+            <OccasionPicker
+              name="occasion"
+              count={6}
+              label="Pick occasion"
               required="This field is required"
             />
-            <Input type="date" name="end_date" label="End date" required="This field is required" />
           </FormizStep>
           <FormizStep name="step_2"></FormizStep>
           <div className="flex justify-between">

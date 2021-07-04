@@ -5,25 +5,28 @@ import Search from "../../components/search/Search";
 import { useAsync } from "../../hooks/useAsync";
 import { toast } from "react-toastify";
 import { useModal } from "../../hooks/useModal";
+import { useUserEvent } from "../../hooks/useUserEvent";
 
 function MyEvents() {
-  const { data, run } = useAsync();
+  const { run } = useAsync();
   const { openModal } = useModal();
+  const { setUserEvents, events } = useUserEvent();
 
   React.useEffect(() => {
     const getUserEvents = async () => {
       try {
-        await run(api.event.getUserEvents());
+        const { events } = await run(api.event.getUserEvents());
+        setUserEvents(events);
       } catch (err) {
         toast(err.message, { type: "error" });
       }
     };
 
     getUserEvents();
-  }, [run]);
+  }, [run, setUserEvents]);
 
   return (
-    <div className="container mx-auto max-w-7xl px-4 xl:px-0">
+    <div className="container mx-auto max-w-7xl p-4 shadow-md bg-white space-y-6">
       <div className="flex justify-between items-center">
         <Search />
         <button className="btn-primary py-4" onClick={() => openModal("newEvent")}>
@@ -31,8 +34,8 @@ function MyEvents() {
         </button>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {data?.events.map((event) => (
-          <EventCard event={event} />
+        {events?.map((event, index) => (
+          <EventCard event={event} key={index} />
         ))}
       </div>
     </div>

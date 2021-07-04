@@ -13,7 +13,7 @@ function withIcon(icon) {
         viewBox={viewBox}
         fill={fill}
         dangerouslySetInnerHTML={{ __html: icon }}
-        className={`${className} ${color} ${size}`}
+        className={`flex-shrink-0 ${className} ${color} ${size} stroke-2`}
       ></svg>
     );
   };

@@ -13,7 +13,7 @@ export async function request(endpoint, { body, ...customConfig } = {}) {
   };
 
   return window.fetch(endpoint, config).then(async (response) => {
-    const data = await response.json();
+    const data = await response.json().catch(() => {});
     if (!response.ok) {
       return Promise.reject({ error: data, status_code: response.status });
     }

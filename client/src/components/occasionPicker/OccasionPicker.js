@@ -1,17 +1,24 @@
 import React from "react";
+import { useField } from "@formiz/core";
 
-function Home() {
-  return (
-    <div className="container mx-auto flex justify-between items-start max-w-7xl mt-12">
-      <section className="max-w-md">
-        <h1 className="text-5xl font-bold text-purple-600">Choose your occasion.</h1>
-        <p className="font-normal py-4">
-          Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing
-          software like Aldus PageMaker{" "}
-        </p>
-        <button className="btn-primary">Create your own</button>
-      </section>
-      <div className="group shadow-md max-w-max rounded-lg overflow-hidden border border-transparent hover:border-purple-600 duration-200 cursor-pointer">
+function OccasionPicker(props) {
+  const { setValue, value, id, isPristine, isSubmitted, isValid } = useField(props);
+  const { label, count } = props;
+
+  const showError = !isValid && (!isPristine || isSubmitted);
+
+  const children = [];
+
+  for (let i = 0; i < count; i++) {
+    const isActive = i === value;
+    children.push(
+      <div
+        className={`group shadow-md max-w-max rounded-lg overflow-hidden border-2 border-transparent hover:border-purple-600 duration-200 cursor-pointer focus:border-purple-600 outline-none ${
+          isActive ? "border-purple-600" : ""
+        }`}
+        tabIndex="0"
+        onClick={() => setValue(i)}
+      >
         <div className="flex justify-center p-6">
           <svg
             width="68"
@@ -26,13 +33,42 @@ function Home() {
             />
           </svg>
         </div>
-        <div className="bg-gray-100 group-hover:bg-purple-600">
-          <p className="font-bold text-purple-600 py-3 px-12 group-hover:text-white">
+        <div
+          className={`bg-gray-100 group-hover:bg-purple-600 group-focus:bg-purple-600 ${
+            isActive ? "bg-purple-600" : ""
+          }`}
+        >
+          <p
+            className={`font-bold py-3 px-9 group-hover:text-white group-focus:text-white text-sm ${
+              isActive ? "text-white" : "text-purple-600"
+            }`}
+          >
             Birthday gifts
           </p>
         </div>
       </div>
+    );
+  }
+
+  return (
+    <div className="w-full">
+      {label ? (
+        <label className="input-label" htmlFor={id}>
+          {label}
+        </label>
+      ) : null}
+      <div
+        className="overflow-hidden border border-gray-200 rounded-lg focus-within:border-gray-500 outline-none"
+        tabIndex="0"
+      >
+        <input id={id} className="opacity-0 h-0 absolute -z-10" />
+        <div className="flex flex-wrap justify-between p-4 max-h-52 overflow-y-auto gap-y-2">
+          {children}
+        </div>
+      </div>
+      {showError ? <span className="text-red-600 text-sm">Please fill out this field.</span> : null}
     </div>
   );
 }
-export default Home;
+
+export default OccasionPicker;

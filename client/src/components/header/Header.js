@@ -8,10 +8,20 @@ import LogoutIcon from "../icons/logout";
 import { NavLink, Link } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
 import { useUser } from "../../hooks/useUser";
+import { useClickOutside } from "../../hooks/useClickOutside";
 
 function Header() {
   const { openModal } = useModal();
   const { isAuthenticated, user } = useUser();
+  const [menuOpen, setMenuOpen] = React.useState();
+  const menuRef = React.useRef();
+
+  const handleToggle = (ev) => {
+    ev.preventDefault();
+    setMenuOpen((open) => !open);
+  };
+
+  useClickOutside(menuRef, () => setMenuOpen(false));
 
   return (
     <header className="container mx-auto flex justify-between items-center p-4 max-w-7xl xl:px-0">
@@ -37,10 +47,10 @@ function Header() {
               </button>
             </li>
           ) : (
-            <details className="relative">
-              <summary className="cursor-pointer">
+            <details className="relative" open={menuOpen} ref={menuRef}>
+              <summary className="cursor-pointer" onClick={handleToggle}>
                 <img
-                  src="https://i.pravatar.cc/300"
+                  src={user.avatar.url}
                   alt="avatar"
                   className="inline object-cover w-12 h-12 rounded-full"
                 />

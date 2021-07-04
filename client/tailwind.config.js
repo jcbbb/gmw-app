@@ -8,6 +8,8 @@ module.exports = {
     extend: {
       opacity: ["disabled"],
       pointerEvents: ["disabled"],
+      backgroundColor: ["group-focus"],
+      textColor: ["group-focus"],
     },
   },
   plugins: [],
