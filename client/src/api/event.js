@@ -7,5 +7,6 @@ export function event(base) {
     updateOne: async (id, update) => {
       return await request(`${base}/${id}`, { method: "PUT", body: { event: update } });
     },
+    getOne: async (id) => await request(`${base}/${id}`),
   };
 }

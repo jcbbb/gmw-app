@@ -11,6 +11,7 @@ function MyEvents() {
   const { run } = useAsync();
   const { openModal } = useModal();
   const { setUserEvents, events } = useUserEvent();
+  const [query, setQuery] = React.useState("");
 
   React.useEffect(() => {
     const getUserEvents = async () => {
@@ -25,16 +26,29 @@ function MyEvents() {
     getUserEvents();
   }, [run, setUserEvents]);
 
+  const onChange = React.useCallback(
+    (value) => {
+      setQuery(value);
+    },
+    [setQuery]
+  );
+
+  const results = React.useMemo(() => {
+    return events?.filter((event) => {
+      return event.title.toLowerCase().includes(query.toLowerCase());
+    });
+  }, [query, events]);
+
   return (
     <div className="container mx-auto max-w-7xl p-4 shadow-md bg-white space-y-6">
       <div className="flex justify-between items-center">
-        <Search />
+        <Search onChange={onChange} placeholder="Search events" />
         <button className="btn-primary py-4" onClick={() => openModal("newEvent")}>
           Add new event
         </button>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {events?.map((event, index) => (
+        {results?.map((event, index) => (
           <EventCard event={event} key={index} />
         ))}
       </div>

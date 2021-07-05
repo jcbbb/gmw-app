@@ -11,8 +11,8 @@ import { useUser } from "../../hooks/useUser";
 import { useClickOutside } from "../../hooks/useClickOutside";
 
 function Header() {
-  const { openModal } = useModal();
-  const { isAuthenticated, user } = useUser();
+  const { openModal, closeModal } = useModal();
+  const { isAuthenticated, user, logout } = useUser();
   const [menuOpen, setMenuOpen] = React.useState();
   const menuRef = React.useRef();
 
@@ -22,6 +22,11 @@ function Header() {
   };
 
   useClickOutside(menuRef, () => setMenuOpen(false));
+
+  const onLogout = React.useCallback(() => {
+    logout();
+    closeModal();
+  }, [logout, closeModal]);
 
   return (
     <header className="container mx-auto flex justify-between items-center p-4 max-w-7xl xl:px-0">
@@ -108,14 +113,20 @@ function Header() {
                   </Link>
                 </li>
                 <hr className="border-t-2 border-gray-100" />
-                <li>
-                  <Link
-                    to="/logout"
-                    className="flex h-14 px-4 items-center text-gray-600 bg-white hover:bg-gray-50"
-                  >
-                    <LogoutIcon color="text-red-400" />
-                    <span className="ml-2 text-red-400">Logout</span>
-                  </Link>
+                <li
+                  to="/logout"
+                  className="flex h-14 px-4 items-center cursor-pointer text-gray-600 bg-white hover:bg-gray-50"
+                  onClick={() =>
+                    openModal("confirmation", {
+                      heading: "Logout",
+                      text: "Are you sure you want to log out of your account?",
+                      onConfirm: onLogout,
+                      onCancel: closeModal,
+                    })
+                  }
+                >
+                  <LogoutIcon color="text-red-400" />
+                  <span className="ml-2 text-red-400">Logout</span>
                 </li>
               </ul>
             </details>

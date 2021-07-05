@@ -14,7 +14,10 @@ export function useUserEvent() {
 
   const deleteOne = React.useCallback(
     (id) => {
-      setState((prev) => prev.events.filter((event) => event.id !== id));
+      setState((prev) => ({
+        ...prev,
+        events: prev.events.filter((event) => event.id !== id),
+      }));
     },
     [setState]
   );

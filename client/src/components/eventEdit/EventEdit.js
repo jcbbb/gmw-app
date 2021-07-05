@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 function EventEdit({ event }) {
   const editForm = useForm();
   const { closeModal } = useModal();
-  const { run } = useAsync();
+  const { run, isLoading } = useAsync();
   const { updateOne } = useUserEvent();
 
   const onSubmit = React.useCallback(
@@ -66,7 +66,12 @@ function EventEdit({ event }) {
             rows="3"
             defaultValue={event.description}
           />
-          <button className="btn-primary">Update</button>
+          <button
+            className="btn-primary disabled:opacity-50 disabled:pointer-events-none"
+            disabled={isLoading}
+          >
+            Update
+          </button>
         </form>
       </Formiz>
     </div>
