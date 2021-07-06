@@ -18,6 +18,7 @@ function OccasionPicker(props) {
         }`}
         tabIndex="0"
         onClick={() => setValue(i)}
+        key={i}
       >
         <div className="flex justify-center p-6">
           <svg

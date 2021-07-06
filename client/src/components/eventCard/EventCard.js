@@ -9,6 +9,7 @@ import { useClickOutside } from "../../hooks/useClickOutside";
 import { useUserEvent } from "../../hooks/useUserEvent";
 import { diffInDays } from "../../utils/date-fns";
 import { withRouter } from "react-router-dom";
+import { DEFAULT_GIFT_THUMB_URL } from "../../data/static";
 
 function EventCard({ event, match }) {
   const { openModal, closeModal } = useModal();
@@ -42,11 +43,14 @@ function EventCard({ event, match }) {
   }, [event]);
 
   return (
-    <Link className="p-4 shadow-md rounded-lg" to={`${match.url}/${event?.id}`}>
+    <Link
+      className="p-4 shadow-md rounded-lg"
+      to={`${match.url}/${event?.id}/gifts/${event.gifts[0].id}`}
+    >
       <div className="max-w-full h-40 overflow-hidden rounded-xl">
         <img
           className="w-full max-h-full object-cover"
-          src="https://i.pravatar.cc/400"
+          src={event?.photo.url || DEFAULT_GIFT_THUMB_URL}
           alt="event thumb"
         />
       </div>

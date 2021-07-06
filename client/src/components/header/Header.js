@@ -9,6 +9,7 @@ import { NavLink, Link } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
 import { useUser } from "../../hooks/useUser";
 import { useClickOutside } from "../../hooks/useClickOutside";
+import { DEFAULT_GIFT_THUMB_URL } from "../../data/static";
 
 function Header() {
   const { openModal, closeModal } = useModal();
@@ -55,7 +56,7 @@ function Header() {
             <details className="relative" open={menuOpen} ref={menuRef}>
               <summary className="cursor-pointer" onClick={handleToggle}>
                 <img
-                  src={user.avatar.url}
+                  src={user.avatar.url || DEFAULT_GIFT_THUMB_URL}
                   alt="avatar"
                   className="inline object-cover w-12 h-12 rounded-full"
                 />
@@ -114,7 +115,6 @@ function Header() {
                 </li>
                 <hr className="border-t-2 border-gray-100" />
                 <li
-                  to="/logout"
                   className="flex h-14 px-4 items-center cursor-pointer text-gray-600 bg-white hover:bg-gray-50"
                   onClick={() =>
                     openModal("confirmation", {

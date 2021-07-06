@@ -4,6 +4,7 @@ import LinkIcon from "../icons/link";
 import DollarIcon from "../icons/dollar";
 import { NavLink } from "react-router-dom";
 import { withRouter } from "react-router-dom";
+import { DEFAULT_GIFT_THUMB_URL } from "../../data/static";
 
 function GiftList({ match, event }) {
   const [query, setQuery] = React.useState("");
@@ -35,7 +36,7 @@ function GiftList({ match, event }) {
           <div className="w-2/5 h-24 overflow-hidden rounded-xl mr-2">
             <img
               className="w-full max-h-full object-cover"
-              src={gift.photo.url}
+              src={gift?.photo.url || DEFAULT_GIFT_THUMB_URL}
               alt="event thumb"
             />
           </div>

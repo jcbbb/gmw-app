@@ -2,6 +2,7 @@ import Homepage from "../pages/home/Home";
 import MyEvents from "../pages/myEvents/MyEvents";
 import EventDetails from "../pages/eventDetails/EventDetails";
 import FriendsEvents from "../pages/friendsEvents/FriendsEvents";
+import GiftDetails from "../components/giftDetails/GiftDetails";
 
 export const routes = {
   private: [
@@ -18,10 +19,23 @@ export const routes = {
     {
       path: "/friends-events",
       component: FriendsEvents,
+      exact: true,
     },
     {
       path: "/my-events/:event_id",
-      component: EventDetails,
+      component: () => (
+        <EventDetails isFriend={false}>
+          <GiftDetails />
+        </EventDetails>
+      ),
+    },
+    {
+      path: "/friends-events/:event_id",
+      component: () => (
+        <EventDetails isFriend={true}>
+          <GiftDetails />
+        </EventDetails>
+      ),
     },
   ],
   public: [

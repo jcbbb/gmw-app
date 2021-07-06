@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { ModalProvider } from "./context/ModalContext";
 import { UserProvider } from "./context/UserContext";
 import { UserEventProvider } from "./context/UserEventContext";
+import { FriendEventProvider } from "./context/FriendEventContext";
 import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
@@ -13,9 +14,11 @@ ReactDOM.render(
     <Router>
       <UserProvider>
         <UserEventProvider>
-          <ModalProvider>
-            <App />
-          </ModalProvider>
+          <FriendEventProvider>
+            <ModalProvider>
+              <App />
+            </ModalProvider>
+          </FriendEventProvider>
         </UserEventProvider>
       </UserProvider>
     </Router>

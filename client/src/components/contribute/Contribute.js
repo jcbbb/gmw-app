@@ -3,8 +3,9 @@ import Textarea from "../textarea/Textarea";
 import Select from "../select/Select";
 import Input from "../input/Input";
 import { Formiz, useForm } from "@formiz/core";
+import { DEFAULT_GIFT_THUMB_URL } from "../../data/static";
 
-function Contribute(props) {
+function Contribute({ gift }) {
   const contributeForm = useForm();
   const onSubmit = (values) => console.log(values);
 
@@ -13,11 +14,11 @@ function Contribute(props) {
       <div className="max-w-full h-40 overflow-hidden rounded-xl">
         <img
           className="w-full max-h-full object-cover"
-          src="https://i.pravatar.cc/400"
+          src={gift?.photo.url || DEFAULT_GIFT_THUMB_URL}
           alt="event thumb"
         />
       </div>
-      <h2 className="font-bold text-xl text-purple-600 text-center">Nike</h2>
+      <h2 className="font-bold text-xl text-purple-600 text-center">{gift?.name}</h2>
       <Formiz connect={contributeForm} onValidSubmit={onSubmit}>
         <form noValidate onSubmit={contributeForm.submit} className="space-y-6">
           <Input name="name" type="text" label="Your name" defaultValue="Jane Doe" />
