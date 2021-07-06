@@ -6,5 +6,6 @@ export function user(base) {
       await request(`${base}/username_login`, {
         body: { username, password },
       }),
+    checkAuth: async () => await request(`${base}/session_user`),
   };
 }
