@@ -72,11 +72,9 @@ function Header() {
           </ul>
         </nav>
         {!isAuthenticated ? (
-          <li>
-            <button className="btn-primary py-3" onClick={() => openModal("login")}>
-              Login
-            </button>
-          </li>
+          <button className="btn-primary py-3" onClick={() => openModal("login")}>
+            Login
+          </button>
         ) : (
           <details className="relative" open={menuOpen} ref={menuRef}>
             <summary className="cursor-pointer" onClick={handleToggle}>
