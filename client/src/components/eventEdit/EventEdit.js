@@ -1,11 +1,11 @@
 import React from "react";
 import Input from "../input/Input";
 import Textarea from "../textarea/Textarea";
+import api from "../../api";
 import { Formiz, useForm } from "@formiz/core";
 import { useAsync } from "../../hooks/useAsync";
 import { useModal } from "../../hooks/useModal";
 import { useUserEvent } from "../../hooks/useUserEvent";
-import api from "../../api";
 import { toast } from "react-toastify";
 
 function EventEdit({ event }) {
@@ -40,20 +40,10 @@ function EventEdit({ event }) {
     <div className="container p-6 max-w-md mx-auto space-y-4 bg-white rounded-lg h-4/5 overflow-y-scroll">
       <Formiz connect={editForm} onValidSubmit={onSubmit}>
         <form noValidate onSubmit={editForm.submit} className="space-y-6">
-          <div className="max-w-full h-40 overflow-hidden rounded-xl">
-            <img
-              className="w-full max-h-full object-cover"
-              src="https://i.pravatar.cc/400"
-              alt="event thumb"
-            />
+          <div className="max-w-full overflow-hidden rounded-xl">
+            <img className="h-40 object-contain w-full" src={event.photo.url} alt="event thumb" />
           </div>
           <Input name="title" type="text" label="Title" defaultValue={event.title} />
-          <Input
-            name="start_date"
-            type="date"
-            label="Start date"
-            defaultValue={new Date(event.start_date).toISOString().substr(0, 10)}
-          />
           <Input
             name="end_date"
             type="date"
@@ -63,7 +53,7 @@ function EventEdit({ event }) {
           <Textarea
             name="description"
             label="Description"
-            rows="3"
+            rows="5"
             defaultValue={event.description}
           />
           <button

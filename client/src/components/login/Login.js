@@ -1,11 +1,12 @@
 import React from "react";
 import api from "../../api";
+import Input from "../input/Input";
+import GoogleLogin from "react-google-login";
 import { useAsync } from "../../hooks/useAsync";
 import { Formiz, useForm } from "@formiz/core";
 import { toast } from "react-toastify";
 import { useUser } from "../../hooks/useUser";
 import { useModal } from "../../hooks/useModal";
-import Input from "../input/Input";
 
 function Login() {
   const loginForm = useForm();
@@ -33,6 +34,7 @@ function Login() {
     [run, login, closeModal]
   );
 
+  const responseGoogle = (response) => console.log(response);
   return (
     <div className="container p-6 max-w-md mx-auto space-y-4 bg-white rounded-lg">
       <h3 className="text-lg font-bold text-gray-900">Login</h3>
@@ -54,6 +56,14 @@ function Login() {
         </form>
       </Formiz>
       <span className="text-gray-500 text-sm text-center block">or</span>
+      <GoogleLogin
+        clientId="592213910014-cqgf512gj03in8c62u8o2b00te6n6f7j.apps.googleusercontent.com"
+        buttonText="Login"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={"single_host_origin"}
+      />
+      ,
       <button className="px-8 py-4 bg-white shadow-md rounded-lg text-gray-700 w-full text-sm">
         Continue with Google
       </button>

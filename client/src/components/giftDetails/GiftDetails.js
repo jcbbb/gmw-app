@@ -11,13 +11,15 @@ import { useParams } from "react-router-dom";
 import { diffInDays } from "../../utils/date-fns";
 import { DEFAULT_GIFT_THUMB_URL } from "../../data/static";
 import { useClickOutside } from "../../hooks/useClickOutside";
+import { useHistory } from "react-router-dom";
 
 function GiftDetails({ event, isFriend }) {
   const { openModal, closeModal } = useModal();
   const { run } = useAsync();
   const { gift_id } = useParams();
-  const menuRef = React.useRef();
   const [menuOpen, setMenuOpen] = React.useState(false);
+  const menuRef = React.useRef();
+  const history = useHistory();
 
   const gift = React.useMemo(() => {
     return event?.gifts.find((gift) => gift.id === parseInt(gift_id, 10));
@@ -26,10 +28,12 @@ function GiftDetails({ event, isFriend }) {
   const onDelete = React.useCallback(async () => {
     try {
       await run(api.gift.deleteOne(gift?.id));
+      toast("Successfully deleted the gift", { type: "success" });
+      history.goBack();
     } catch (err) {
       toast(err.message, { type: "error" });
     }
-  }, [gift, run]);
+  }, [gift, run, history]);
 
   const daysLeft = React.useMemo(() => {
     const days = diffInDays(event?.start_date, event?.end_date);
@@ -50,20 +54,20 @@ function GiftDetails({ event, isFriend }) {
         <div className="relative rounded-full overflow-hidden">
           <div
             className="absolute w-1/3 bg-red-700 left-0 h-6 flex items-center rounded-r-full"
-            style={{ width: gift?.total_fund_percentage + "%", minWidth: "25px" }}
+            style={{ width: gift?.total_fund_percentage + "%", minWidth: "38px" }}
           >
             <span className="text-white text-sm absolute right-2">
-              {gift?.total_fund_percentage}
+              {gift?.total_fund_percentage}%
             </span>
           </div>
           <div className="w-full bg-red-100 h-6"></div>
         </div>
         <div className="container p-8 flex items-center space-x-4">
-          <div className="w-1/2 overflow-hidden rounded-xl mr-2 max-h-96">
+          <div className="w-1/2 overflow-hidden rounded-xl mr-2">
             <img
-              className="w-full max-h-full object-cover"
+              className="h-96 object-contain w-full"
               src={gift?.photo.url || DEFAULT_GIFT_THUMB_URL}
-              alt="event thumb"
+              alt="gift thumb"
             />
           </div>
           <div className="w-1/2 flex flex-col space-y-4">
@@ -78,7 +82,7 @@ function GiftDetails({ event, isFriend }) {
                   <div className="dropdown max-w-max right-0 top-full mt-2">
                     <button
                       className="block p-3 w-36 text-gray-600 text-sm text-left bg-white hover:bg-gray-50 duration-200"
-                      onClick={() => openModal("giftEdit")}
+                      onClick={() => openModal("giftEdit", { gift })}
                     >
                       Edit
                     </button>

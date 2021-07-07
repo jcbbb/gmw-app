@@ -40,8 +40,8 @@ function MyEvents() {
   }, [query, events]);
 
   return (
-    <div className="container mx-auto max-w-7xl p-4 shadow-md bg-white space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="container mx-auto max-w-7xl bg-white space-y-6 p-4 mt-12 xl:shadow-md">
+      <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:items-center md:justify-between">
         <Search onChange={onChange} placeholder="Search events" />
         <button className="btn-primary py-4" onClick={() => openModal("newEvent")}>
           Add new event

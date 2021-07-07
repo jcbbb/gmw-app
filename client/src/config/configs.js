@@ -3,6 +3,8 @@ import MyEvents from "../pages/myEvents/MyEvents";
 import EventDetails from "../pages/eventDetails/EventDetails";
 import FriendsEvents from "../pages/friendsEvents/FriendsEvents";
 import GiftDetails from "../components/giftDetails/GiftDetails";
+import Friends from "../pages/friends/Friends";
+import PublicProfile from "../pages/publicProfile/PublicProfile";
 
 export const routes = {
   private: [
@@ -36,6 +38,14 @@ export const routes = {
           <GiftDetails />
         </EventDetails>
       ),
+    },
+    {
+      path: "/friends",
+      component: Friends,
+    },
+    {
+      path: "/users/:user_id",
+      component: PublicProfile,
     },
   ],
   public: [

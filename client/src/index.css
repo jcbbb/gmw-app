@@ -25,4 +25,14 @@ details > summary::-webkit-details-marker {
   .input-label {
     @apply block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2;
   }
+  .header-link {
+    @apply block relative py-4 px-6;
+  }
+  .header-link:after {
+    content: "";
+    @apply absolute bottom-0 right-0 w-0 h-1 bg-purple-600 transition-all duration-300 ease-in-out rounded-lg;
+  }
+  .header-link:hover:after {
+    @apply w-full left-0;
+  }
 }

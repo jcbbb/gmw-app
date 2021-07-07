@@ -2,7 +2,7 @@ import React from "react";
 
 function Home() {
   return (
-    <div className="container mx-auto flex justify-between items-start max-w-7xl mt-12">
+    <div className="container mx-auto flex justify-between items-start max-w-7xl p-4 mt-12 xl:p-0">
       <section className="max-w-md">
         <h1 className="text-5xl font-bold text-purple-600">Choose your occasion.</h1>
         <p className="font-normal py-4">

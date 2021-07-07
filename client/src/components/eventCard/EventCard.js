@@ -54,6 +54,7 @@ function EventCard({ event, match }) {
           alt="event thumb"
         />
       </div>
+
       <div className="flex mt-2 justify-between items-center">
         <h3 className="text-purple-600 font-bold text-lg">{event?.title}</h3>
         <details className="relative" open={menuOpen} ref={menuRef}>
