@@ -57,7 +57,7 @@ function Login() {
       </Formiz>
       <span className="text-gray-500 text-sm text-center block">or</span>
       <GoogleLogin
-        clientId="592213910014-cqgf512gj03in8c62u8o2b00te6n6f7j.apps.googleusercontent.com"
+        clientId="592213910014-h007lg9g3i5h9ejhc3r4k3mohfis3g2j.apps.googleusercontent.com"
         buttonText="Login"
         onSuccess={responseGoogle}
         onFailure={responseGoogle}

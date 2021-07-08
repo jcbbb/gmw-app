@@ -11,10 +11,15 @@ function FriendEventCard({ event, match }) {
     return `${days} days left`;
   }, [event]);
 
+  const firstGiftId = React.useMemo(() => {
+    if (event.gifts.length) return event.gifts[0].id;
+    return "";
+  }, [event]);
+
   return (
     <Link
       className="p-4 shadow-md rounded-lg"
-      to={`${match.url}/${event?.id}/gifts/${event.gifts[0].id}`}
+      to={`${match.url}/${event?.id}/gifts/${firstGiftId}`}
     >
       <div className="max-w-full h-40 overflow-hidden rounded-xl">
         <img

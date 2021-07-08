@@ -1,70 +1,32 @@
 import React from "react";
-import Search from "../../components/search/Search";
-import api from "../../api";
-import { NavLink, withRouter } from "react-router-dom";
-import { useAsync } from "../../hooks/useAsync";
-import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
-function FriendsList({ match }) {
-  const [query, setQuery] = React.useState("");
-  const { run, data } = useAsync();
-
-  const onChange = React.useCallback(
-    (value) => {
-      setQuery(value);
-    },
-    [setQuery]
-  );
-
-  React.useEffect(() => {
-    const getFriends = async () => {
-      try {
-        await run(api.friend.getAll());
-      } catch (err) {
-        toast(err.message, {
-          type: "error",
-        });
-      }
-    };
-
-    getFriends();
-  }, [run]);
-
-  const results = React.useMemo(() => {
-    return data?.users.filter(({ user }) => {
-      const lastname = user.last_name.toLowerCase();
-      const firstname = user.first_name.toLowerCase();
-      return lastname.includes(query.toLowerCase()) || firstname.includes(query.toLowerCase());
-    });
-  }, [query, data]);
-
+function FriendsList({ friends, suggested }) {
   return (
-    <div className="max-w-sm w-full rounde-lg shadow-md overflow-hidden p-4 space-y-4 max-h-screen overflow-y-auto">
-      <h2 className="text-lg font-bold text-gray-900 text-center">Friends</h2>
-      <Search onChange={onChange} placeholder="Search friends" />
-      {results?.map(({ user }, index) => (
-        <NavLink
-          key={index}
-          className="flex p-4 rounded-lg overflow-hidden shadow-md items-center"
-          to={`${match.url}/${user.id}`}
-        >
-          <div className="w-1/5 min-w-min overflow-hidden rounded-xl mr-2">
+    <React.Fragment>
+      {friends?.map((user, index) => (
+        <div className="flex py-4 rounded-lg overflow-hidden items-center" key={index}>
+          <div className="w-14 overflow-hidden rounded-full">
             <img
-              className="w-full max-h-full object-cover"
-              src={user.avatar.thumb.url}
+              className="h-18 object-contain w-full"
+              src={suggested ? user.avatar.thumb.url : user.user.avatar.thumb.url}
               alt="friend thumb"
             />
           </div>
-          <div className="w-4/5 flex flex-col">
-            <h3 className="font-bold text-purple-600 overflow-hidden overflow-ellipsis whitespace-nowrap">
-              {user.first_name} {user.last_name}
-            </h3>
-            <p className="text-gray-600 text-sm">{user.events_count} events</p>
+          <div className="ml-2">
+            <Link to={`/users/${user.id}`}>
+              <h3 className="font-bold text-gray-900 text-sm">
+                {suggested
+                  ? `${user.first_name} ${user.last_name}`
+                  : `${user.user.first_name} ${user.user.last_name}`}
+              </h3>
+            </Link>
           </div>
-        </NavLink>
+          <button className="btn-outlined py-2 px-4 ml-auto">Follow</button>
+        </div>
       ))}
-    </div>
+    </React.Fragment>
   );
 }
 
-export default withRouter(FriendsList);
+export default FriendsList;

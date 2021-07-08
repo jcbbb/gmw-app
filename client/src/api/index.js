@@ -2,6 +2,7 @@ import { user } from "./user";
 import { event } from "./event";
 import { gift } from "./gift";
 import { friend } from "./friend";
+import { profile } from "./profile";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -11,5 +12,6 @@ export default (function api() {
     event: event(`${apiUrl}/events`),
     gift: gift(`${apiUrl}/gifts`),
     friend: friend(apiUrl),
+    profile: profile(`${apiUrl}/profiles`),
   };
 })();
