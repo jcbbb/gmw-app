@@ -3,15 +3,17 @@ import api from "../../api";
 import ProfileIcon from "../../components/icons/profile";
 import VerticalDotsIcon from "../../components/icons/dots-vertical";
 import CheckIcon from "../../components/icons/check";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { DEFAULT_GIFT_THUMB_URL } from "../../data/static";
 import { useAsync } from "../../hooks/useAsync";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { diffInDays } from "../../utils/date-fns";
 
-function PublicProfile() {
+function PublicProfile({ match }) {
   const { user_id } = useParams();
   const { run, data } = useAsync();
+  const { run: run2, data: eventsData } = useAsync();
 
   React.useEffect(() => {
     const getProfile = async () => {
@@ -23,9 +25,18 @@ function PublicProfile() {
         });
       }
     };
+    const getFriendEvents = async () => {
+      try {
+        await run2(api.friend.getFriendEvent(user_id));
+      } catch (err) {
+        toast(err.message, {
+          type: "error",
+        });
+      }
+    };
 
-    getProfile();
-  }, [user_id, run]);
+    Promise.all([getProfile(), getFriendEvents()]);
+  }, [user_id, run, run2]);
 
   return (
     <div className="max-w-4xl mx-auto mt-12">
@@ -73,8 +84,36 @@ function PublicProfile() {
           </div>
         </div>
       </div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
+        {eventsData?.events.map((event, index) => {
+          const days = diffInDays(event?.start_date, event?.end_date);
+          const daysLeft = days < 0 ? "Expired" : days + " days leftb";
+          const firstGiftId = event?.gifts.length ? event?.gifts[0].id : "";
+          return (
+            <Link
+              className="p-4 shadow-md rounded-lg"
+              to={`/friends-events/${event.id}/gifts/${firstGiftId}`}
+              key={index}
+            >
+              <div className="max-w-full h-40 overflow-hidden rounded-xl">
+                <img
+                  className="w-full max-h-full object-cover"
+                  src={event?.photo.url || DEFAULT_GIFT_THUMB_URL}
+                  alt="event thumb"
+                />
+              </div>
+              <div className="flex mt-2 flex-col">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-purple-600 font-bold text-lg">{event?.title}</h3>
+                  <span className="text-gray-400 text-sm">{daysLeft}</span>
+                </div>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 }
 
-export default PublicProfile;
+export default withRouter(PublicProfile);

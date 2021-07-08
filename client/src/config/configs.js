@@ -46,6 +46,7 @@ export const routes = {
     {
       path: "/users/:user_id",
       component: PublicProfile,
+      exact: true,
     },
   ],
   public: [
