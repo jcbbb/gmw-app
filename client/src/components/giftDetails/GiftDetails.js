@@ -91,7 +91,7 @@ function GiftDetails({ event, isFriend }) {
                       onClick={() =>
                         openModal("confirmation", {
                           heading: "Delete gift",
-                          text: "Are you sure you want to delete this event with no option of recovery?",
+                          text: "Are you sure you want to delete this gift with no option of recovery?",
                           onCancel: closeModal,
                           onConfirm: onDelete,
                         })
