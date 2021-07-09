@@ -127,6 +127,31 @@ function GiftDetails({ event, isFriend }) {
             </button>
           </div>
         </div>
+        {!isFriend ? (
+          <div className="px-8 py-4">
+            <h2 className="text-xl font-bold text-gray-900">Participants</h2>
+            {gift.donations.length ? (
+              gift.donations.map(({ user }) => (
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 mt-4">
+                  <div className="max-w-full h-36 overflow-hidden rounded-xl relative group cursor-pointer">
+                    <img
+                      className="w-full max-h-full object-cover"
+                      src={user.avatar.url || DEFAULT_GIFT_THUMB_URL}
+                      alt="event thumb"
+                    />
+                    <div className="absolute bg-black w-full h-full top-0 z-10 bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 duration-300">
+                      <p className="text-white opacity-0 group-hover:opacity-100">
+                        {user.first_name}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500 mt-1">No donations yet</p>
+            )}
+          </div>
+        ) : null}
       </div>
     );
   }

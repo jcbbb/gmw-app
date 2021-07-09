@@ -41,7 +41,7 @@ function EventDetails({ match, children, isFriend }) {
                 <span className="py-3 px-7 whitespace-nowrap text-purple-600 font-bold">
                   Total gifted
                 </span>
-                <span className="block py-3 px-4 bg-purple-600 w-14 text-white font-bold">
+                <span className="block py-3 px-4 bg-purple-600 text-white font-bold">
                   ${totalGifted}
                 </span>
               </div>

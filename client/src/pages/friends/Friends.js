@@ -6,11 +6,13 @@ import { useAsync } from "../../hooks/useAsync";
 import { toast } from "react-toastify";
 import { withRouter } from "react-router-dom";
 import FriendRequests from "../../components/friendRequests/FriendRequests";
+import { useUser } from "../../hooks/useUser";
 
 function Friends() {
   const [query, setQuery] = React.useState("");
-  const { run, data: friends } = useAsync();
-  const { run: run2, data: suggestedFriends } = useAsync();
+  const { run } = useAsync();
+  const { setUserFriends, friends, setSuggestedFriends, suggestedFriends, setOutgoingRequests } =
+    useUser();
 
   const onChange = React.useCallback(
     (value) => {
@@ -22,7 +24,8 @@ function Friends() {
   React.useEffect(() => {
     const getFriends = async () => {
       try {
-        await run(api.friend.getAll());
+        const { users } = await run(api.friend.getAll());
+        setUserFriends(users);
       } catch (err) {
         toast(err.message, {
           type: "error",
@@ -32,7 +35,8 @@ function Friends() {
 
     const getSuggestedFriends = async () => {
       try {
-        await run2(api.friend.getSuggestedFriends());
+        const { suggestedFriends } = await run(api.friend.getSuggestedFriends());
+        setSuggestedFriends(suggestedFriends);
       } catch (err) {
         toast(err.message, {
           type: "error",
@@ -41,21 +45,36 @@ function Friends() {
     };
 
     Promise.all([getFriends(), getSuggestedFriends()]);
-  }, [run2, run]);
+  }, [run, setUserFriends, setSuggestedFriends]);
 
   const results = React.useMemo(() => {
-    return friends?.users.filter(({ user }) => {
+    return friends?.filter(({ user }) => {
       const lastname = user.last_name.toLowerCase();
       const firstname = user.first_name.toLowerCase();
       return lastname.includes(query.toLowerCase()) || firstname.includes(query.toLowerCase());
     });
   }, [query, friends]);
 
+  const createFriendRequest = React.useCallback(
+    async (user) => {
+      try {
+        await run(api.friend.createFriendRequest(user.id));
+        const { friend_requests } = await run(api.friend.getOutgoingRequests());
+        setOutgoingRequests(friend_requests);
+      } catch (err) {
+        toast(err.message, {
+          type: "error",
+        });
+      }
+    },
+    [run, setOutgoingRequests]
+  );
+
   return (
     <div className="max-w-7xl mx-auto flex justify-between items-baseline space-x-4 p-4 mt-12">
       <div className="max-w-sm shadow-md flex-1 rounded-lg p-4">
         <h2 className="text-lg font-bold text-gray-900 ">Suggested friends</h2>
-        <FriendsList friends={suggestedFriends?.suggestedFriends} suggested />
+        <FriendsList friends={suggestedFriends} suggested onFollow={createFriendRequest} />
       </div>
       <div className="max-w-lg flex-1 space-y-4">
         <Search onChange={onChange} placeholder="Search friends" />

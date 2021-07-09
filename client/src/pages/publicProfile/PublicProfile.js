@@ -18,16 +18,10 @@ function PublicProfile({ match }) {
   React.useEffect(() => {
     const getProfile = async () => {
       try {
-        await run(api.profile.getOne(user_id));
-      } catch (err) {
-        toast(err.message, {
-          type: "error",
-        });
-      }
-    };
-    const getFriendEvents = async () => {
-      try {
-        await run2(api.friend.getFriendEvent(user_id));
+        const { user } = await run(api.profile.getOne(user_id));
+        if (user && user.is_friend !== "false") {
+          await run2(api.friend.getFriendEvent(user_id));
+        }
       } catch (err) {
         toast(err.message, {
           type: "error",
@@ -35,7 +29,7 @@ function PublicProfile({ match }) {
       }
     };
 
-    Promise.all([getProfile(), getFriendEvents()]);
+    getProfile();
   }, [user_id, run, run2]);
 
   return (
@@ -52,7 +46,7 @@ function PublicProfile({ match }) {
           <div className="w-32 min-w-min rounded-full overflow-hidden border-4 border-purple-600">
             <img
               className="h-32 min-w-min object-cover w-full"
-              src={data?.user.avatar.thumb.url}
+              src={data?.user.avatar.thumb.url || DEFAULT_GIFT_THUMB_URL}
               alt="friend thumb"
             />
           </div>
