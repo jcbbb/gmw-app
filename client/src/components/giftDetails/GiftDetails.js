@@ -7,7 +7,7 @@ import api from "../../api";
 import { useModal } from "../../hooks/useModal";
 import { useAsync } from "../../hooks/useAsync";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { diffInDays } from "../../utils/date-fns";
 import { DEFAULT_GIFT_THUMB_URL } from "../../data/static";
 import { useClickOutside } from "../../hooks/useClickOutside";
@@ -138,7 +138,10 @@ function GiftDetails({ event, isFriend }) {
             {donations.length ? (
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 mt-4">
                 {donations.map(({ user }) => (
-                  <div className="max-w-full h-36 overflow-hidden rounded-xl relative group cursor-pointer">
+                  <Link
+                    className="max-w-full h-36 overflow-hidden rounded-xl relative group cursor-pointer"
+                    to={`/users/${user.id}`}
+                  >
                     <img
                       className="w-full max-h-full object-cover"
                       src={user.avatar.url || DEFAULT_GIFT_THUMB_URL}
@@ -149,7 +152,7 @@ function GiftDetails({ event, isFriend }) {
                         {user.first_name}
                       </p>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             ) : (
