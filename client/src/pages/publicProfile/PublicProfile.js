@@ -43,9 +43,9 @@ function PublicProfile({ match }) {
       </div>
       <div className="flex flex-col px-4">
         <div className="flex justify-between items-center -mt-16">
-          <div className="w-32 min-w-min rounded-full overflow-hidden border-4 border-purple-600">
+          <div className="w-32 h-32 min-w-min rounded-full overflow-hidden border-4 border-purple-600 flex items-center justify-center">
             <img
-              className="h-32 min-w-min object-cover w-full"
+              className="max-h-full min-w-min object-cover w-full"
               src={data?.user.avatar.thumb.url || DEFAULT_GIFT_THUMB_URL}
               alt="friend thumb"
             />
