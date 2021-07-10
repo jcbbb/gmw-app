@@ -130,9 +130,9 @@ function GiftDetails({ event, isFriend }) {
         {!isFriend ? (
           <div className="px-8 py-4">
             <h2 className="text-xl font-bold text-gray-900">Participants</h2>
-            {gift.donations.length ? (
-              gift.donations.map(({ user }) => (
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 mt-4">
+            {gift.dontations.length ? (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 mt-4">
+                {gift.dontations.map(({ user }) => (
                   <div className="max-w-full h-36 overflow-hidden rounded-xl relative group cursor-pointer">
                     <img
                       className="w-full max-h-full object-cover"
@@ -145,8 +145,8 @@ function GiftDetails({ event, isFriend }) {
                       </p>
                     </div>
                   </div>
-                </div>
-              ))
+                ))}
+              </div>
             ) : (
               <p className="text-gray-500 mt-1">No donations yet</p>
             )}
