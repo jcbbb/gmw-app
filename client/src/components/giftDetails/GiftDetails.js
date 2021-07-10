@@ -12,6 +12,7 @@ import { diffInDays } from "../../utils/date-fns";
 import { DEFAULT_GIFT_THUMB_URL } from "../../data/static";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { useHistory } from "react-router-dom";
+import { uniqueBy } from "../../utils/unique";
 
 function GiftDetails({ event, isFriend }) {
   const { openModal, closeModal } = useModal();
@@ -47,6 +48,10 @@ function GiftDetails({ event, isFriend }) {
   };
 
   useClickOutside(menuRef, () => setMenuOpen(false));
+
+  const donations = React.useMemo(() => {
+    return gift?.donations.length ? uniqueBy(gift.donations, "id") : [];
+  }, [gift]);
 
   if (gift) {
     return (
@@ -130,9 +135,9 @@ function GiftDetails({ event, isFriend }) {
         {!isFriend ? (
           <div className="px-8 py-4">
             <h2 className="text-xl font-bold text-gray-900">Participants</h2>
-            {gift.dontations.length ? (
+            {donations.length ? (
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 mt-4">
-                {gift.dontations.map(({ user }) => (
+                {donations.map(({ user }) => (
                   <div className="max-w-full h-36 overflow-hidden rounded-xl relative group cursor-pointer">
                     <img
                       className="w-full max-h-full object-cover"
