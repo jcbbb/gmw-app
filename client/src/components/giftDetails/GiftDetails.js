@@ -50,7 +50,7 @@ function GiftDetails({ event, isFriend }) {
   useClickOutside(menuRef, () => setMenuOpen(false));
 
   const donations = React.useMemo(() => {
-    return gift?.donations.length ? uniqueBy(gift.donations, "id") : [];
+    return gift?.donations.length ? uniqueBy(gift.donations, (item) => item.user.id) : [];
   }, [gift]);
 
   if (gift) {

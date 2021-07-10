@@ -1,4 +1,4 @@
 export function uniqueBy(arr, key) {
   const seen = new Map();
-  return arr.filter((item) => (seen.get(item[key]) ? false : seen.set(item[key], true)));
+  return arr.filter((item) => (seen.get(key(item)) ? false : seen.set(key(item), true)));
 }
