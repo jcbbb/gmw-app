@@ -2,6 +2,7 @@ import React from "react";
 import api from "../../api";
 import Input from "../input/Input";
 import GoogleLogin from "react-google-login";
+import FacebookLogin from "react-facebook-login";
 import Indeterminate from "../indeterminate/Indeterminate";
 import { useAsync } from "../../hooks/useAsync";
 import { Formiz, useForm } from "@formiz/core";
@@ -35,12 +36,12 @@ function Login() {
     [run, login, closeModal]
   );
 
-  const onGoogleResponse = React.useCallback(
-    async (response) => {
+  const onOauthCb = React.useCallback(
+    async (res, provider, key) => {
       try {
-        if (response.error) throw new Error(response.error);
-        const token = response.tokenId;
-        const user = await run(api.social.login("gmail", token));
+        if (res.error) throw new Error(res.error);
+        const token = res[key];
+        const user = await run(api.social.login(provider, token));
         login(user);
         closeModal();
       } catch (err) {
@@ -75,11 +76,9 @@ function Login() {
       </Formiz>
       <span className="text-gray-500 text-sm text-center block">or</span>
       <GoogleLogin
-        // clientId="592213910014-h007lg9g3i5h9ejhc3r4k3mohfis3g2j.apps.googleusercontent.com"
         clientId="592213910014-cqgf512gj03in8c62u8o2b00te6n6f7j.apps.googleusercontent.com"
-        buttonText="Login"
-        onSuccess={onGoogleResponse}
-        onFailure={onGoogleResponse}
+        onSuccess={(res) => onOauthCb(res, "gmail", "tokenId")}
+        onFailure={(res) => onOauthCb(res, "gmail", "tokenId")}
         cookiePolicy={"single_host_origin"}
         render={(props) => (
           <button
@@ -91,9 +90,17 @@ function Login() {
           </button>
         )}
       />
-      <button className="px-8 py-4 bg-white shadow-md rounded-lg text-gray-700 w-full text-sm">
-        Continue with Facebook
-      </button>
+      <FacebookLogin
+        appId="290511525426479"
+        callback={(res) => onOauthCb(res, "facebook", "accessToken")}
+        onFailure={(res) => onOauthCb(res, "facebook", "accessToken")}
+        cssClass="px-8 py-4 bg-white mt-4 shadow-md rounded-lg text-gray-700 w-full text-sm disabled:opacity-50 disabled:pointer-events-none"
+        render={(props) => (
+          <button onClick={props.onClick} disabled={props.isDisabled}>
+            Continue with Facebook
+          </button>
+        )}
+      />
     </div>
   );
 }
