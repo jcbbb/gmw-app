@@ -18,7 +18,7 @@ function FriendsList({ friends, suggested, onFollow }) {
             />
           </div>
           <div className="ml-2">
-            <Link to={`/users/${user?.user?.id}`}>
+            <Link to={`/users/${suggested ? user.id : user?.user?.id}`}>
               <h3 className="font-bold text-gray-900 text-sm overflow-ellipsis overflow-hidden whitespace-nowrap">
                 {suggested
                   ? `${user.first_name} ${user.last_name}`
