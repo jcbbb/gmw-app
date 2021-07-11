@@ -56,14 +56,13 @@ export function useUser() {
 
   const acceptIncoming = React.useCallback(
     (id) => {
-      console.log(state.incomingRequests.find((req) => req.id === id));
       setState((prev) => ({
         ...prev,
         friends: [...prev.friends, prev.incomingRequests.find((req) => req.id === id)],
         incomingRequests: prev.incomingRequests.filter((req) => req.id !== id),
       }));
     },
-    [setState, state.incomingRequests]
+    [setState]
   );
 
   const deleteOutgoing = React.useCallback(
@@ -86,6 +85,16 @@ export function useUser() {
     [setState]
   );
 
+  const setUserCards = React.useCallback(
+    (cards) => {
+      setState((prev) => ({
+        ...prev,
+        cards,
+      }));
+    },
+    [setState]
+  );
+
   return {
     isAuthenticated,
     login,
@@ -97,6 +106,7 @@ export function useUser() {
     acceptIncoming,
     deleteIncoming,
     deleteOutgoing,
+    setUserCards,
     ...state,
   };
 }

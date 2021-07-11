@@ -87,7 +87,7 @@ function Header() {
             <ul className="dropdown max-w-xs right-0">
               <li>
                 <Link
-                  to="/profile"
+                  to="/profile/general"
                   className="flex h-14 px-4 items-center text-gray-600 bg-white hover:bg-gray-50 duration-200"
                 >
                   <ProfileIcon />

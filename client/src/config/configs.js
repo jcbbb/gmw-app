@@ -5,6 +5,11 @@ import FriendsEvents from "../pages/friendsEvents/FriendsEvents";
 import GiftDetails from "../components/giftDetails/GiftDetails";
 import Friends from "../pages/friends/Friends";
 import PublicProfile from "../pages/publicProfile/PublicProfile";
+import Profile from "../pages/profile/Profile";
+import ProfileGeneral from "../components/profileGeneral/ProfileGeneral";
+import ProfileCards from "../components/profileCards/ProfileCards";
+import ProfileShipping from "../components/shipping/Shipping";
+import ProfileContributions from "../components/profileContributions/ProfileContributions";
 
 export const routes = {
   private: [
@@ -47,6 +52,28 @@ export const routes = {
       path: "/users/:user_id",
       component: PublicProfile,
       exact: true,
+    },
+    {
+      path: "/profile",
+      component: Profile,
+      routes: [
+        {
+          path: "/profile/general",
+          component: ProfileGeneral,
+        },
+        {
+          path: "/profile/cards",
+          component: ProfileCards,
+        },
+        {
+          path: "/profile/shipping",
+          component: ProfileShipping,
+        },
+        {
+          path: "/profile/contributions",
+          component: ProfileContributions,
+        },
+      ],
     },
   ],
   public: [

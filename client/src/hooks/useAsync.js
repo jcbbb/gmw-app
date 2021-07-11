@@ -68,7 +68,6 @@ export function useAsync(initialState) {
   );
 
   return {
-    // using the same names that react-query uses for convenience
     isIdle: status === "idle",
     isLoading: status === "pending",
     isError: status === "rejected",
