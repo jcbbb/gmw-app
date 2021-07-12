@@ -9,7 +9,7 @@ function FriendsList({ friends, suggested, onClick }) {
         <div className="flex py-4 rounded-lg overflow-hidden items-center" key={index}>
           <div className="w-14 overflow-hidden rounded-full">
             <img
-              className="h-18 object-contain w-full"
+              className="h-18 object-contain max-w-full"
               src={
                 (suggested ? user.avatar.thumb.url : user.user.avatar.thumb.url) ||
                 DEFAULT_GIFT_THUMB_URL
