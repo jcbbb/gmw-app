@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { DEFAULT_GIFT_THUMB_URL } from "../../data/static";
 
-function FriendsList({ friends, suggested, onFollow }) {
+function FriendsList({ friends, suggested, onClick }) {
   return (
     <React.Fragment>
       {friends?.map((user, index) => (
@@ -26,7 +26,10 @@ function FriendsList({ friends, suggested, onFollow }) {
               </h3>
             </Link>
           </div>
-          <button className="btn-outlined py-2 px-4 ml-auto" onClick={() => onFollow(user)}>
+          <button
+            className={`${suggested ? "btn-primary" : "btn-outlined"} py-2 px-4 ml-auto`}
+            onClick={() => onClick(user)}
+          >
             Follow
           </button>
         </div>

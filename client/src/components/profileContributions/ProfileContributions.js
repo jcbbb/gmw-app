@@ -36,7 +36,7 @@ function ProfileContributions() {
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       {donations?.length ? (
         donations.map((donation) => (
-          <div className="flex space-x-2 items-center">
+          <div className="flex space-x-2 items-center rounded-lg overflow-hidden shadow-md p-4">
             <div className="w-40 h-28 min-w-min overflow-hidden rounded-xl">
               <img
                 className="max-h-full object-cover w-full"

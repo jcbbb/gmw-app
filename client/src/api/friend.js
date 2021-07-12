@@ -24,5 +24,6 @@ export function friend(base) {
       }),
     declineFriendRequest: async (id) =>
       await request(`${base}/friend_requests/${id}`, { method: "DELETE" }),
+    deleteFriend: async (id) => await request(`${base}/friends/${id}`, { method: "DELETE" }),
   };
 }

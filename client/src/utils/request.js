@@ -1,15 +1,9 @@
-export async function request(endpoint, { body, ...customConfig } = {}) {
-  const headers = { "Content-Type": "application/json" };
-
+export async function request(endpoint, { body, stringify = true, ...customConfig } = {}) {
   const config = {
     method: body ? "POST" : "GET",
-    body: body ? JSON.stringify(body) : undefined,
-    ...customConfig,
+    body: body && stringify ? JSON.stringify(body) : body || undefined,
     credentials: "include",
-    headers: {
-      ...headers,
-      ...customConfig.headers,
-    },
+    ...customConfig,
   };
 
   return window.fetch(endpoint, config).then(async (response) => {

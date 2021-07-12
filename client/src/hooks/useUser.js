@@ -33,6 +33,16 @@ export function useUser() {
     [updateState]
   );
 
+  const deleteUserFriend = React.useCallback(
+    (id) => {
+      setState((prev) => ({
+        ...prev,
+        friends: prev.friends.filter((friend) => friend.id !== id),
+      }));
+    },
+    [setState]
+  );
+
   const setSuggestedFriends = React.useCallback(
     (suggestedFriends) => {
       updateState({ suggestedFriends });
@@ -85,11 +95,23 @@ export function useUser() {
     [setState]
   );
 
-  const setUserCards = React.useCallback(
-    (cards) => {
+  const deleteSuggested = React.useCallback(
+    (id) => {
       setState((prev) => ({
         ...prev,
-        cards,
+        suggestedFriends: prev.suggestedFriends.filter(
+          (suggestedFriend) => suggestedFriend.id !== id
+        ),
+      }));
+    },
+    [setState]
+  );
+
+  const updateUser = React.useCallback(
+    (user) => {
+      setState((prev) => ({
+        ...prev,
+        user,
       }));
     },
     [setState]
@@ -106,7 +128,9 @@ export function useUser() {
     acceptIncoming,
     deleteIncoming,
     deleteOutgoing,
-    setUserCards,
+    deleteSuggested,
+    updateUser,
+    deleteUserFriend,
     ...state,
   };
 }

@@ -10,6 +10,7 @@ import ProfileGeneral from "../components/profileGeneral/ProfileGeneral";
 import ProfileCards from "../components/profileCards/ProfileCards";
 import ProfileShipping from "../components/shipping/Shipping";
 import ProfileContributions from "../components/profileContributions/ProfileContributions";
+import ProfilePayments from "../components/profilePayments/ProfilePayments";
 
 export const routes = {
   private: [
@@ -72,6 +73,10 @@ export const routes = {
         {
           path: "/profile/contributions",
           component: ProfileContributions,
+        },
+        {
+          path: "/profile/payments",
+          component: ProfilePayments,
         },
       ],
     },

@@ -2,13 +2,38 @@ import React from "react";
 import Input from "../input/Input";
 import Textarea from "../textarea/Textarea";
 import { useUser } from "../../hooks/useUser";
+import { useAsync } from "../../hooks/useAsync";
 import { Formiz, useForm } from "@formiz/core";
+import api from "../../api";
+import { toast } from "react-toastify";
 
 function ProfileGeneral() {
-  const { user } = useUser();
+  const { user, updateUser } = useUser();
+  const { run, isLoading } = useAsync();
   const generalForm = useForm();
 
-  const onSubmit = (va) => console.log(va);
+  const onSubmit = React.useCallback(
+    async (values) => {
+      try {
+        const { first_name, last_name, phone_number, email } = values;
+        const { user: updatedUser } = await run(
+          api.profile.updateOne(user.id, {
+            first_name,
+            last_name,
+            phone_number,
+            email,
+          })
+        );
+        updateUser(updatedUser);
+      } catch (err) {
+        toast(err.message, {
+          type: "error",
+        });
+      }
+    },
+
+    [user, updateUser, run]
+  );
 
   const shippingAddress = React.useMemo(() => {
     const { street, apartment, country, city, postal_code } = user.shipping_address;
@@ -28,7 +53,10 @@ function ProfileGeneral() {
             label="Shipping address"
             defaultValue={shippingAddress}
           />
-          <button className="btn-primary w-full disabled:opacity-50 disabled:pointer-events-none">
+          <button
+            className="btn-primary w-full disabled:opacity-50 disabled:pointer-events-none"
+            disabled={isLoading}
+          >
             Update
           </button>
         </form>

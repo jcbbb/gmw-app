@@ -1,12 +1,35 @@
 import React from "react";
 import Input from "../input/Input";
+import { useAsync } from "../../hooks/useAsync";
 import { useUser } from "../../hooks/useUser";
 import { useForm, Formiz } from "@formiz/core";
+import { toast } from "react-toastify";
+import api from "../../api";
 
 function Shipping() {
   const shippingForm = useForm();
-  const onSubmit = (va) => console.log(va);
-  const { user } = useUser();
+  const { run, isLoading } = useAsync();
+
+  const { user, updateUser } = useUser();
+
+  const onSubmit = React.useCallback(
+    async (values) => {
+      try {
+        const { user: updatedUser } = await run(
+          api.profile.updateOne(user.id, {
+            shipping_address_attributes: values,
+          })
+        );
+        updateUser(updatedUser);
+      } catch (err) {
+        toast(err.message, {
+          type: "error",
+        });
+      }
+    },
+    [user, run, updateUser]
+  );
+
   return (
     <div className="max-w-lg">
       <Formiz connect={shippingForm} onValidSubmit={onSubmit}>
@@ -30,7 +53,10 @@ function Shipping() {
             label="Phone number"
             defaultValue={user.shipping_address.phone_number}
           />
-          <button className="btn-primary w-full disabled:opacity-50 disabled:pointer-events-none">
+          <button
+            className="btn-primary max-w-max disabled:opacity-50 disabled:pointer-events-none"
+            disabled={isLoading}
+          >
             Update
           </button>
         </form>

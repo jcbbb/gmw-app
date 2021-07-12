@@ -6,6 +6,7 @@ import CashIcon from "../../components/icons/cash";
 import CreditCardIcon from "../../components/icons/credit-card";
 import TruckIcon from "../../components/icons/truck";
 import QuestionMarkIcon from "../../components/icons/question-mark";
+import CameraIcon from "../../components/icons/camera";
 import { useUser } from "../../hooks/useUser";
 import { DEFAULT_GIFT_THUMB_URL } from "../../data/static";
 import { useAsync } from "../../hooks/useAsync";
@@ -20,6 +21,7 @@ function Profile({ routes }) {
   const { user } = useUser();
   const { run } = useAsync();
   const { setWallet, wallet } = useWallet();
+  const [preview, setPreview] = React.useState();
 
   React.useEffect(() => {
     const getWallet = async () => {
@@ -36,13 +38,49 @@ function Profile({ routes }) {
     getWallet();
   }, [run, setWallet]);
 
+  const onChange = React.useCallback(
+    async (e) => {
+      try {
+        const file = e.target.files[0];
+        if (!file) return;
+        const formData = new FormData();
+        formData.append("avatar", file);
+        await run(api.profile.uploadAvatar(user.id, formData));
+        const url = URL.createObjectURL(file);
+        setPreview(url);
+      } catch (err) {
+        toast(err.message, {
+          type: "error",
+        });
+      }
+    },
+    [setPreview, user, run]
+  );
+
   return (
     <div className="flex justify-between max-w-7xl mx-auto mt-12 space-x-4 items-start">
       <div className="max-w-sm w-full rounde-lg shadow-md overflow-hidden p-4 space-y-4 flex flex-col items-center">
-        <div className="w-32 h-32 min-w-min rounded-full overflow-hidden flex items-center justify-center">
+        <div className="w-32 h-32 min-w-min rounded-full overflow-hidden flex items-center justify-center relative">
+          <input
+            type="file"
+            className="hidden"
+            id="profile_photo"
+            accept="image/*"
+            name="avatar"
+            onChange={onChange}
+          />
+          <label
+            htmlFor="profile_photo"
+            className="absolute flex items-center justify-center left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 bg-black w-full h-full bg-opacity-0 group hover:bg-opacity-60 duration-300 cursor-pointer"
+          >
+            <CameraIcon
+              color="text-transparent"
+              className="stroke-current group-hover:text-gray-200 duration-300"
+            />
+          </label>
           <img
-            className="max-h-full object-cover w-full"
-            src={user?.avatar.thumb.url || DEFAULT_GIFT_THUMB_URL}
+            className="max-h-full object-cover w-full h-full"
+            src={preview || user?.avatar.thumb.url || DEFAULT_GIFT_THUMB_URL}
             alt="friend thumb"
           />
         </div>
@@ -56,7 +94,7 @@ function Profile({ routes }) {
         <ul className="w-full space-y-4">
           <li>
             <NavLink
-              className="flex h-12 px-4 items-center bg-white rounded-lg"
+              className="flex h-12 px-4 items-center bg-gray-50 rounded-lg"
               to="/profile/general"
               activeClassName="bg-purple-600 text-white"
             >
